@@ -136,7 +136,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="login-sub">Student Information Portal</div>
     </div>
     <label for="uid">Student ID or email</label>
-    <input type="text" id="uid" placeholder="e.g. 2019-48821 or f.saad@uhdg.edu">
+    <input type="text" id="uid" placeholder="e.g. saadf1 or f.saad@uhdg.edu">
     <label for="upw">Password</label>
     <input type="password" id="upw" placeholder="••••••••">
     <div class="login-err" id="login-err"></div>
@@ -155,7 +155,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
       <div class="sb-user">
         <div class="sb-avatar">FS</div>
-        <div><div class="sb-uname">Fardeen Saad</div><div class="sb-uid">ID: 2019-48821</div></div>
+        <div><div class="sb-uname">Fardeen Saad</div><div class="sb-uid">ID: saadf1</div></div>
       </div>
       <div class="nav-section">
         <div class="nav-label">MAIN</div>
@@ -167,6 +167,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
       <div class="nav-section">
         <div class="nav-label">SUPPORT</div>
+        <div class="nav-item" onclick="nav('finaid',this)"><i class="ti ti-cash"></i> Financial Aid</div>
         <div class="nav-item" onclick="nav('resources',this)"><i class="ti ti-books"></i> Resources</div>
         <div class="nav-item" onclick="nav('help',this)"><i class="ti ti-help-circle"></i> Help & contact</div>
       </div>
@@ -232,9 +233,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <div class="card">
               <div class="card-hd">Personal information</div>
               <div class="info-row"><span class="ik">Full name</span><span class="iv">Fardeen Saad</span></div>
-              <div class="info-row"><span class="ik">Student ID</span><span class="iv">2019-48821</span></div>
+              <div class="info-row"><span class="ik">Student ID</span><span class="iv">saadf1</span></div>
               <div class="info-row"><span class="ik">Email</span><span class="iv">f.saad@uhdg.edu</span></div>
-              <div class="info-row"><span class="ik">Phone</span><span class="iv">(713) 555-0194</span></div>
+              <div class="info-row"><span class="ik">Phone</span><span class="iv">(346) 225-6355</span></div>
               <div class="info-row"><span class="ik">Enrollment</span><span class="iv">Full-time</span></div>
               <div class="info-row"><span class="ik">Citizenship</span><span class="iv">Domestic</span></div>
             </div>
@@ -291,6 +292,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           </div>
         </div>
 
+        <!-- FINANCIAL AID -->
+        <div class="page" id="pg-finaid">
+          <div class="section-hd">Financial Aid</div>
+          <div class="section-sub">Spring 2026 · Aid summary and outstanding balances for Fardeen Saad</div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-v" style="color:#a32d2d">$7,200</div><div class="stat-l">Outstanding loan balance</div></div>
+            <div class="stat"><div class="stat-v" style="color:#3B6D11">$48,600</div><div class="stat-l">Total scholarships received</div></div>
+            <div class="stat"><div class="stat-v">$55,800</div><div class="stat-l">Total cost of attendance</div></div>
+            <div class="stat"><div class="stat-v" style="color:#3B6D11">87%</div><div class="stat-l">Covered by scholarships</div></div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <div class="card-hd">Scholarship history</div>
+              <div class="info-row"><span class="ik">Year 1 (2022–2023)</span><span class="iv" style="color:#3B6D11">Fully covered</span></div>
+              <div class="info-row"><span class="ik">Year 2 (2023–2024)</span><span class="iv" style="color:#3B6D11">Fully covered</span></div>
+              <div class="info-row"><span class="ik">Year 3 (2024–2025)</span><span class="iv" style="color:#3B6D11">Fully covered</span></div>
+              <div class="info-row"><span class="ik">Year 4 (2025–2026)</span><span class="iv" style="color:#3B6D11">Fully covered</span></div>
+              <div style="margin-top:12px;padding:10px 12px;background:#eaf3de;border-radius:8px;font-size:13px;color:#3B6D11"><i class="ti ti-check" style="margin-right:6px"></i>All four years of tuition covered through scholarship awards.</div>
+            </div>
+            <div class="card">
+              <div class="card-hd">Outstanding balance</div>
+              <div class="info-row"><span class="ik">Loan type</span><span class="iv">Federal Direct Subsidized</span></div>
+              <div class="info-row"><span class="ik">Original amount</span><span class="iv">$7,200</div>
+              <div class="info-row"><span class="ik">Interest rate</span><span class="iv">4.99%</span></div>
+              <div class="info-row"><span class="ik">Status</span><span class="iv" style="color:#a32d2d">In-school deferment</span></div>
+              <div class="info-row"><span class="ik">Repayment begins</span><span class="iv">6 months after graduation</span></div>
+              <div style="margin-top:12px;padding:10px 12px;background:#FCEBEB;border-radius:8px;font-size:13px;color:#791F1F"><i class="ti ti-alert-circle" style="margin-right:6px"></i>$7,200 loan balance will enter repayment after December 2026 graduation.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd">Aid disbursement timeline</div>
+            <table class="ttable">
+              <thead><tr><th>Year</th><th>Aid type</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>2022–2023</td><td>UH Excellence Scholarship</td><td>$13,200</td><td><span class="chip">Disbursed</span></td></tr>
+                <tr><td>2023–2024</td><td>UH Excellence Scholarship</td><td>$13,200</td><td><span class="chip">Disbursed</span></td></tr>
+                <tr><td>2024–2025</td><td>Fertitta College Merit Award</td><td>$11,100</td><td><span class="chip">Disbursed</span></td></tr>
+                <tr><td>2025–2026</td><td>Fertitta College Merit Award</td><td>$11,100</td><td><span class="chip">Disbursed</span></td></tr>
+                <tr><td>2022–2026</td><td>Federal Direct Subsidized Loan</td><td>$7,200</td><td><span class="chip b">Repayment pending</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- RESOURCES -->
         <div class="page" id="pg-resources">
           <div class="section-hd">Academic resources</div>
@@ -334,7 +379,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
-const pageNames={dashboard:"Dashboard",profile:"My profile",grades:"Grades",transcript:"Transcript",schedule:"Schedule",resources:"Resources",help:"Help & contact"};
+const pageNames={dashboard:"Dashboard",finaid:"Financial Aid",profile:"My profile",grades:"Grades",transcript:"Transcript",schedule:"Schedule",resources:"Resources",help:"Help & contact"};
 
 function doLogin(){
   const uid=document.getElementById('uid').value.trim();
