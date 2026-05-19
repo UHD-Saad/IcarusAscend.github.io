@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UHDG Student Portal</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:100vh}
+:root{--red:#c8102e;--red-dark:#a00d24;--red-light:#fdf0f2}
+
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f5f5}
+.login-card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:2.5rem 2rem;width:360px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.login-logo{text-align:center;margin-bottom:1.75rem}
+.login-logo-mark{width:54px;height:54px;background:var(--red);border-radius:10px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px}
+.login-logo-mark span{color:#fff;font-size:20px;font-weight:600;letter-spacing:1px}
+.login-school{font-size:15px;font-weight:600;color:#1a1a1a}
+.login-sub{font-size:12px;color:#666;margin-top:3px}
+.login-card label{display:block;font-size:12px;color:#555;margin-bottom:4px;margin-top:14px;font-weight:500}
+.login-card input{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;background:#fff;color:#1a1a1a;outline:none}
+.login-card input:focus{border-color:var(--red)}
+.login-btn{width:100%;margin-top:20px;padding:11px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer}
+.login-btn:hover{background:var(--red-dark)}
+.login-footer{text-align:center;margin-top:14px;font-size:12px;color:#888;line-height:1.6}
+.login-err{font-size:12px;color:#a32d2d;margin-top:8px;text-align:center;min-height:16px}
+
+.portal-shell{display:none;min-height:100vh}
+.portal{display:flex;min-height:100vh}
+.sidebar{width:224px;background:var(--red);color:#fff;display:flex;flex-direction:column;min-height:100vh;flex-shrink:0;position:sticky;top:0;height:100vh}
+.sb-top{padding:1.25rem 1rem 1rem;border-bottom:1px solid rgba(255,255,255,0.15)}
+.sb-brand{font-size:20px;font-weight:600;letter-spacing:1px;color:#fff}
+.sb-tagline{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;line-height:1.5}
+.sb-user{display:flex;align-items:center;gap:10px;padding:1rem;border-bottom:1px solid rgba(255,255,255,0.15)}
+.sb-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
+.sb-uname{font-size:13px;font-weight:500;color:#fff}
+.sb-uid{font-size:11px;color:rgba(255,255,255,0.6)}
+.nav-section{padding:0.75rem 0}
+.nav-label{font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:1.5px;padding:0 1rem;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 1rem;font-size:13px;color:rgba(255,255,255,0.75);cursor:pointer;border-left:3px solid transparent;transition:all 0.15s}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,0.1)}
+.nav-item.active{color:#fff;border-left-color:#fff;background:rgba(255,255,255,0.15)}
+.nav-item i{font-size:16px}
+.sb-footer{margin-top:auto;padding:1rem;font-size:11px;color:rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.12)}
+
+.main-area{flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid #e5e5e5;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.topbar-title{font-size:15px;font-weight:500;color:#1a1a1a}
+.term-pill{font-size:12px;background:var(--red-light);color:#791F1F;border:1px solid #F09595;border-radius:6px;padding:4px 10px}
+.signout-btn{font-size:12px;padding:5px 10px;color:#555;cursor:pointer;background:none;border:1px solid #ddd;border-radius:6px}
+.signout-btn:hover{background:#f5f5f5}
+
+.content{padding:1.5rem;overflow:auto}
+.page{display:none}
+.page.active{display:block}
+.section-hd{font-size:20px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+.section-sub{font-size:13px;color:#666;margin-bottom:1.25rem}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+.stat{background:#f0f0f0;border-radius:8px;padding:1rem;text-align:center}
+.stat-v{font-size:24px;font-weight:600;color:#1a1a1a}
+.stat-l{font-size:11px;color:#666;margin-top:2px}
+
+.card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.card-hd{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:12px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+.profile-hero{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem}
+.p-avatar{width:64px;height:64px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;color:#fff;flex-shrink:0}
+.p-name{font-size:20px;font-weight:600;color:#1a1a1a}
+.p-role{font-size:13px;color:#666;margin-top:2px}
+.p-badges{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.badge{font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid}
+.badge-red{background:#FCEBEB;color:#791F1F;border-color:#F09595}
+.badge-green{background:#eaf3de;color:#3B6D11;border-color:#c0dd97}
+.badge-blue{background:#e6f1fb;color:#185FA5;border-color:#b5d4f4}
+
+.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.info-row:last-child{border-bottom:none}
+.ik{color:#666}
+.iv{color:#1a1a1a;font-weight:500;text-align:right}
+
+.ttable{width:100%;border-collapse:collapse;font-size:13px}
+.ttable th{text-align:left;padding:8px 10px;font-size:11px;color:#666;border-bottom:1px solid #e5e5e5;font-weight:600;white-space:nowrap}
+.ttable td{padding:9px 10px;border-bottom:1px solid #f0f0f0;color:#1a1a1a}
+.ttable tr:last-child td{border-bottom:none}
+.ttable tr:hover td{background:#fafafa}
+.chip{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;background:#eaf3de;color:#3B6D11}
+.chip.b{background:#e6f1fb;color:#185FA5}
+
+.course-card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;margin-bottom:8px;overflow:hidden}
+.c-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;cursor:pointer;user-select:none}
+.c-header:hover{background:#fafafa}
+.c-left{display:flex;align-items:center;gap:10px}
+.c-code{font-size:11px;color:#791F1F;background:#FCEBEB;border:1px solid #F09595;padding:3px 8px;border-radius:6px;font-weight:500}
+.c-name{font-size:14px;font-weight:500;color:#1a1a1a}
+.c-right{display:flex;align-items:center;gap:10px}
+.c-pct{font-size:16px;font-weight:600;color:#3B6D11}
+.chev{font-size:15px;color:#888;transition:transform 0.2s}
+.chev.open{transform:rotate(180deg)}
+.asgn-list{border-top:1px solid #e5e5e5;display:none}
+.asgn-row{display:flex;align-items:center;justify-content:space-between;padding:9px 1.25rem;border-bottom:1px solid #f0f0f0;font-size:13px}
+.asgn-row:last-child{border-bottom:none}
+.asgn-row.final-row{background:var(--red-light)}
+.asgn-left{display:flex;align-items:center;gap:6px}
+.asgn-nm{color:#1a1a1a}
+.asgn-dt{color:#888;font-size:11px}
+.asgn-sc{font-weight:600;color:#3B6D11}
+.final-row .asgn-sc{color:#a32d2d}
+
+.announce{border-left:3px solid var(--red);padding:10px 12px;background:#fff;border-top:1px solid #e5e5e5;border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;margin-bottom:6px}
+.announce-t{font-size:13px;font-weight:500;color:#1a1a1a}
+.announce-m{font-size:11px;color:#888;margin-top:2px}
+
+.bar-row{margin-bottom:10px}
+.bar-meta{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.bar-track{background:#f0f0f0;border-radius:4px;height:5px}
+.bar-fill{background:var(--red);height:5px;border-radius:4px}
+
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.res-card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1.25rem}
+.res-icon{font-size:22px;color:var(--red)}
+.res-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-top:8px}
+.res-desc{font-size:12px;color:#666;margin-top:4px;line-height:1.5}
+.disclaimer{padding:10px 1.25rem;background:var(--red-light);border-bottom:1px solid #e5e5e5;font-size:12px;color:#791F1F}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-mark"><span>UH</span></div>
+      <div class="login-school">University of Houston Digital Gateway</div>
+      <div class="login-sub">Student Information Portal</div>
+    </div>
+    <label for="uid">Student ID or email</label>
+    <input type="text" id="uid" placeholder="e.g. 2019-48821 or f.saad@uhdg.edu">
+    <label for="upw">Password</label>
+    <input type="password" id="upw" placeholder="••••••••">
+    <div class="login-err" id="login-err"></div>
+    <button class="login-btn" onclick="doLogin()"><i class="ti ti-lock"></i> Sign in to portal</button>
+    <div class="login-footer">Tilman J. Fertitta College of Business · Spring 2026<br>Need help? Contact registrar@uhdg.edu</div>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal-shell" class="portal-shell">
+  <div class="portal">
+    <div class="sidebar">
+      <div class="sb-top">
+        <div class="sb-brand">UHDG</div>
+        <div class="sb-tagline">University of Houston<br>Digital Gateway</div>
+      </div>
+      <div class="sb-user">
+        <div class="sb-avatar">FS</div>
+        <div><div class="sb-uname">Fardeen Saad</div><div class="sb-uid">ID: 2019-48821</div></div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">MAIN</div>
+        <div class="nav-item active" onclick="nav('dashboard',this)"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item" onclick="nav('profile',this)"><i class="ti ti-user"></i> My profile</div>
+        <div class="nav-item" onclick="nav('grades',this)"><i class="ti ti-chart-bar"></i> Grades</div>
+        <div class="nav-item" onclick="nav('transcript',this)"><i class="ti ti-file-description"></i> Transcript</div>
+        <div class="nav-item" onclick="nav('schedule',this)"><i class="ti ti-calendar"></i> Schedule</div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">SUPPORT</div>
+        <div class="nav-item" onclick="nav('resources',this)"><i class="ti ti-books"></i> Resources</div>
+        <div class="nav-item" onclick="nav('help',this)"><i class="ti ti-help-circle"></i> Help & contact</div>
+      </div>
+      <div class="sb-footer">Spring 2026 · Fertitta College of Business</div>
+    </div>
+
+    <div class="main-area">
+      <div class="topbar">
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="term-pill">Spring 2026</span>
+          <button class="signout-btn" onclick="logout()"><i class="ti ti-logout"></i> Sign out</button>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <div class="page active" id="pg-dashboard">
+          <div class="section-hd">Welcome back, Fardeen</div>
+          <div class="section-sub">Spring 2026 · Tilman J. Fertitta College of Business</div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-v">3.87</div><div class="stat-l">Cumulative GPA</div></div>
+            <div class="stat"><div class="stat-v">126</div><div class="stat-l">Credits completed</div></div>
+            <div class="stat"><div class="stat-v">18</div><div class="stat-l">Credits this term</div></div>
+            <div class="stat"><div class="stat-v">6</div><div class="stat-l">Active courses</div></div>
+          </div>
+          <div class="two-col">
+            <div class="card"><div class="card-hd">Current term grades</div><div id="dash-bars"></div></div>
+            <div class="card">
+              <div class="card-hd">Announcements</div>
+              <div class="announce"><div class="announce-t">Final exam schedule now posted</div><div class="announce-m">Registrar's Office · May 12, 2026</div></div>
+              <div class="announce"><div class="announce-t">Summer 2026 registration is open</div><div class="announce-m">Academic Affairs · May 8, 2026</div></div>
+              <div class="announce"><div class="announce-t">Library extended hours begin May 20</div><div class="announce-m">Campus Services · May 1, 2026</div></div>
+              <div class="announce"><div class="announce-t">Commencement ceremony details</div><div class="announce-m">Student Affairs · Apr 28, 2026</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd">Academic standing</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;font-size:13px">
+              <div><div style="color:#666;margin-bottom:3px">Degree</div><div style="font-weight:500">B.S. in Management Information Systems</div></div>
+              <div><div style="color:#666;margin-bottom:3px">College</div><div style="font-weight:500">Tilman J. Fertitta College of Business</div></div>
+              <div><div style="color:#666;margin-bottom:3px">Status</div><div style="font-weight:500;color:#3B6D11">Good standing</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="page" id="pg-profile">
+          <div class="profile-hero">
+            <div class="p-avatar">FS</div>
+            <div>
+              <div class="p-name">Fardeen Saad</div>
+              <div class="p-role">Management Information Systems · Junior Standing</div>
+              <div class="p-badges">
+                <span class="badge badge-red">Dean's List Eligible</span>
+                <span class="badge badge-green">Good Standing</span>
+                <span class="badge badge-blue">Spring 2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <div class="card-hd">Personal information</div>
+              <div class="info-row"><span class="ik">Full name</span><span class="iv">Fardeen Saad</span></div>
+              <div class="info-row"><span class="ik">Student ID</span><span class="iv">2019-48821</span></div>
+              <div class="info-row"><span class="ik">Email</span><span class="iv">f.saad@uhdg.edu</span></div>
+              <div class="info-row"><span class="ik">Phone</span><span class="iv">(713) 555-0194</span></div>
+              <div class="info-row"><span class="ik">Enrollment</span><span class="iv">Full-time</span></div>
+              <div class="info-row"><span class="ik">Citizenship</span><span class="iv">Domestic</span></div>
+            </div>
+            <div class="card">
+              <div class="card-hd">Academic information</div>
+              <div class="info-row"><span class="ik">Degree</span><span class="iv">B.S. in MIS</span></div>
+              <div class="info-row"><span class="ik">Minor</span><span class="iv">Business Analytics</span></div>
+              <div class="info-row"><span class="ik">College</span><span class="iv">Fertitta College of Business</span></div>
+              <div class="info-row"><span class="ik">Department</span><span class="iv">Decision & Information Sciences</span></div>
+              <div class="info-row"><span class="ik">Advisor</span><span class="iv">Dr. M. Patel</span></div>
+              <div class="info-row"><span class="ik">Expected graduation</span><span class="iv">December 2026</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd">Credit summary</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;font-size:13px">
+              <div><div style="color:#666;margin-bottom:3px">Completed</div><div style="font-weight:600;font-size:20px">126</div></div>
+              <div><div style="color:#666;margin-bottom:3px">In progress</div><div style="font-weight:600;font-size:20px">18</div></div>
+              <div><div style="color:#666;margin-bottom:3px">Required total</div><div style="font-weight:600;font-size:20px">120</div></div>
+              <div><div style="color:#666;margin-bottom:3px">Cumulative GPA</div><div style="font-weight:600;font-size:20px">3.87</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRADES -->
+        <div class="page" id="pg-grades">
+          <div class="section-hd">Spring 2026 grades</div>
+          <div class="section-sub">Click any course to view assignment breakdown.</div>
+          <div id="grades-list"></div>
+        </div>
+
+        <!-- TRANSCRIPT -->
+        <div class="page" id="pg-transcript">
+          <div class="section-hd">Unofficial transcript</div>
+          <div class="section-sub">University of Houston Digital Gateway · B.S. in Management Information Systems · 126 credits completed</div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <div class="disclaimer"><i class="ti ti-alert-circle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>This is an unofficial transcript for academic reference only. Official transcripts must be requested from the Registrar's Office.</div>
+            <div style="overflow-x:auto"><table class="ttable">
+              <thead><tr><th>Course</th><th>Title</th><th style="text-align:center">Credits</th><th style="text-align:center">Grade</th><th>Term</th></tr></thead>
+              <tbody id="tbody"></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- SCHEDULE -->
+        <div class="page" id="pg-schedule">
+          <div class="section-hd">Spring 2026 schedule</div>
+          <div class="section-sub">Your weekly class meetings and instructors.</div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="ttable">
+              <thead><tr><th>Course</th><th>Title</th><th>Days</th><th>Time</th><th>Room</th><th>Instructor</th></tr></thead>
+              <tbody id="sched-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RESOURCES -->
+        <div class="page" id="pg-resources">
+          <div class="section-hd">Academic resources</div>
+          <div class="section-sub">Tools and services available to UHDG students.</div>
+          <div class="res-grid">
+            <div class="res-card"><i class="ti ti-books res-icon"></i><div class="res-title">M.D. Anderson Library</div><div class="res-desc">Access 2M+ journals, ebooks, and research databases via UH Libraries.</div></div>
+            <div class="res-card"><i class="ti ti-device-laptop res-icon"></i><div class="res-title">Learning & Assessment Center</div><div class="res-desc">Book tutoring, writing support, and peer mentoring sessions.</div></div>
+            <div class="res-card"><i class="ti ti-briefcase res-icon"></i><div class="res-title">Bauer Career Services</div><div class="res-desc">Resume review, interview prep, and employer connections through Fertitta College.</div></div>
+            <div class="res-card"><i class="ti ti-building res-icon"></i><div class="res-title">Registrar's Office</div><div class="res-desc">Official transcripts, enrollment verification, and degree audits.</div></div>
+            <div class="res-card"><i class="ti ti-heart res-icon"></i><div class="res-title">Student Health Center</div><div class="res-desc">Medical, counseling, and wellness services on campus.</div></div>
+            <div class="res-card"><i class="ti ti-cash res-icon"></i><div class="res-title">Financial Aid Office</div><div class="res-desc">Scholarships, FAFSA support, and tuition assistance programs.</div></div>
+          </div>
+        </div>
+
+        <!-- HELP -->
+        <div class="page" id="pg-help">
+          <div class="section-hd">Help & contact</div>
+          <div class="section-sub">Reach out to the right office for your needs.</div>
+          <div class="two-col">
+            <div class="card">
+              <div class="card-hd">Key contacts</div>
+              <div class="info-row"><span class="ik">Registrar</span><span class="iv">registrar@uhdg.edu</span></div>
+              <div class="info-row"><span class="ik">Financial Aid</span><span class="iv">finaid@uhdg.edu</span></div>
+              <div class="info-row"><span class="ik">IT Help Desk</span><span class="iv">(713) 743-1411</span></div>
+              <div class="info-row"><span class="ik">Academic Advisor</span><span class="iv">Dr. M. Patel</span></div>
+              <div class="info-row"><span class="ik">Department Office</span><span class="iv">Melcher Hall 280</span></div>
+            </div>
+            <div class="card">
+              <div class="card-hd">Portal hours</div>
+              <div class="info-row"><span class="ik">Portal availability</span><span class="iv">24/7</span></div>
+              <div class="info-row"><span class="ik">Scheduled maintenance</span><span class="iv">Sun 2:00–4:00 AM</span></div>
+              <div class="info-row"><span class="ik">IT support hours</span><span class="iv">Mon–Fri 8 AM–6 PM</span></div>
+              <div class="info-row"><span class="ik">Registrar hours</span><span class="iv">Mon–Fri 9 AM–5 PM</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const pageNames={dashboard:"Dashboard",profile:"My profile",grades:"Grades",transcript:"Transcript",schedule:"Schedule",resources:"Resources",help:"Help & contact"};
+
+function doLogin(){
+  const uid=document.getElementById('uid').value.trim();
+  const pw=document.getElementById('upw').value.trim();
+  const err=document.getElementById('login-err');
+  if(!uid||!pw){err.textContent="Please enter your ID and password.";return}
+  if(pw.length<4){err.textContent="Incorrect credentials. Please try again.";return}
+  err.textContent="";
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('portal-shell').style.display='block';
+}
+document.getElementById('upw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('uid').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+
+function logout(){
+  document.getElementById('portal-shell').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('uid').value='';
+  document.getElementById('upw').value='';
+  document.getElementById('login-err').textContent='';
+}
+
+function nav(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('topbar-title').textContent=pageNames[id];
+}
+
+const transcriptData=[
+  ["COSC 1300","Intro to Computer Science","A","Fall 2022"],
+  ["MATH 1431","Calculus I","B+","Fall 2022"],
+  ["ENGL 1303","First-Year Writing","A","Fall 2022"],
+  ["COMM 1315","Public Speaking","A-","Fall 2022"],
+  ["MIS 2100","Foundations of MIS","A","Spring 2023"],
+  ["ACCT 2301","Principles of Accounting I","A-","Spring 2023"],
+  ["BUSA 1301","Intro to Business","B+","Spring 2023"],
+  ["MATH 2311","Probability & Statistics","A","Spring 2023"],
+  ["MIS 3300","Systems Analysis & Design","A","Fall 2023"],
+  ["ACCT 2302","Principles of Accounting II","A-","Fall 2023"],
+  ["MGMT 3301","Organizational Behavior","B+","Fall 2023"],
+  ["COSC 2430","Programming & Data Structures","A-","Fall 2023"],
+  ["MIS 3350","Database Management","A","Spring 2024"],
+  ["BUAN 3350","Business Analytics I","A","Spring 2024"],
+  ["MKTG 3350","Marketing Principles","A","Spring 2024"],
+  ["FIN 3320","Financial Management","B+","Spring 2024"],
+  ["MIS 4300","IT Project Management","A","Fall 2024"],
+  ["MIS 4350","Enterprise Resource Planning","A-","Fall 2024"],
+  ["MGMT 4301","Strategic Management","A","Fall 2024"],
+  ["BUAN 3360","Data Visualization","A-","Fall 2024"],
+  ["MIS 4380","Network Infrastructure","A","Spring 2025"],
+  ["COSC 3350","Cloud Computing","A-","Spring 2025"],
+  ["MIS 4390","Cybersecurity Fundamentals","A","Spring 2025"],
+  ["MIS 4100","Information Systems Audit","A","Spring 2025"],
+  ["BUSA 4301","Business Ethics","A-","Spring 2025"],
+  ["ENGL 3302","Technical Writing","A","Spring 2025"],
+  ["MIS 4410","IT Governance & Compliance","A","Fall 2025"],
+  ["ACCT 3301","Managerial Accounting","B+","Fall 2025"],
+  ["MIS 4420","ERP Systems Integration","A-","Fall 2025"],
+  ["MGMT 4320","Operations Management","B+","Fall 2025"],
+  ["MIS 4440","Systems Administration","A","Fall 2025"],
+  ["COSC 4350","Machine Learning Basics","A-","Fall 2025"],
+  ["BUSA 4320","Global Business Env.","A","Fall 2025"],
+  ["MIS 4450","Advanced Database Systems","A","Fall 2025"],
+  ["FIN 4320","Investment Analysis","B+","Fall 2025"],
+  ["MIS 4460","IT Risk Management","A","Fall 2025"],
+  ["MIS 4470","Business Process Mgmt","A-","Fall 2025"],
+  ["MIS 4480","IT Service Management","A","Fall 2025"],
+  ["BUAN 4380","Predictive Analytics","A","Fall 2025"],
+  ["MGMT 4340","Leadership & Change","A-","Fall 2025"],
+  ["MIS 4490","Capstone Prep Seminar","A","Fall 2025"],
+  ["COSC 4360","Network Security","A","Fall 2025"],
+];
+const tbody=document.getElementById('tbody');
+transcriptData.forEach(([code,title,grade,term])=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${code}</td><td>${title}</td><td style="text-align:center">3</td><td style="text-align:center"><span class="chip ${grade.startsWith('A')?'':'b'}">${grade}</span></td><td>${term}</td>`;
+  tbody.appendChild(tr);
+});
+
+const currentCourses=[
+  {code:"MIS 4500",name:"Capstone: IS Strategy",pct:94,letter:"A",assignments:[
+    {n:"Project Charter",d:"Jan 28",s:"95/100"},{n:"Stakeholder Analysis",d:"Feb 11",s:"93/100"},
+    {n:"System Requirements Doc",d:"Feb 25",s:"96/100"},{n:"Mid-term Presentation",d:"Mar 18",s:"94/100"},
+    {n:"Sprint Review 1",d:"Apr 1",s:"91/100"},{n:"Sprint Review 2",d:"Apr 22",s:"93/100"},
+    {n:"Final Exam",d:"May 14",s:"96/100",final:true}]},
+  {code:"MIS 4510",name:"Business Intelligence Systems",pct:92,letter:"A",assignments:[
+    {n:"BI Architecture Quiz",d:"Feb 4",s:"90/100"},{n:"ETL Pipeline Lab",d:"Feb 18",s:"93/100"},
+    {n:"Dashboard Design Project",d:"Mar 4",s:"94/100"},{n:"Data Warehouse Lab",d:"Mar 25",s:"91/100"},
+    {n:"Midterm Exam",d:"Apr 8",s:"92/100"},{n:"OLAP Analysis Report",d:"Apr 29",s:"90/100"},
+    {n:"Final Exam",d:"May 15",s:"93/100",final:true}]},
+  {code:"COSC 4400",name:"Cloud Infrastructure & DevOps",pct:91,letter:"A",assignments:[
+    {n:"AWS Setup Lab",d:"Jan 27",s:"95/100"},{n:"CI/CD Pipeline Project",d:"Feb 10",s:"88/100"},
+    {n:"Container Orchestration Lab",d:"Mar 3",s:"91/100"},{n:"Midterm Exam",d:"Mar 24",s:"90/100"},
+    {n:"Infrastructure as Code",d:"Apr 14",s:"92/100"},{n:"Monitoring & Logging Lab",d:"Apr 28",s:"91/100"},
+    {n:"Final Exam",d:"May 13",s:"92/100",final:true}]},
+  {code:"ACCT 4310",name:"Accounting Information Systems",pct:93,letter:"A",assignments:[
+    {n:"AIS Controls Quiz",d:"Feb 3",s:"92/100"},{n:"SAP Navigation Lab",d:"Feb 17",s:"95/100"},
+    {n:"Internal Controls Report",d:"Mar 10",s:"93/100"},{n:"Midterm Exam",d:"Mar 31",s:"92/100"},
+    {n:"Revenue Cycle Project",d:"Apr 15",s:"94/100"},{n:"Audit Trail Analysis",d:"Apr 30",s:"91/100"},
+    {n:"Final Exam",d:"May 16",s:"95/100",final:true}]},
+  {code:"MGMT 4400",name:"Technology & Innovation Mgmt",pct:95,letter:"A",assignments:[
+    {n:"Innovation Framework Essay",d:"Jan 30",s:"96/100"},{n:"Case Study: Tesla",d:"Feb 13",s:"95/100"},
+    {n:"Disruptive Tech Analysis",d:"Mar 6",s:"97/100"},{n:"Midterm Exam",d:"Mar 27",s:"94/100"},
+    {n:"Product Roadmap Project",d:"Apr 17",s:"95/100"},{n:"Peer Review Activity",d:"May 1",s:"93/100"},
+    {n:"Final Exam",d:"May 12",s:"97/100",final:true}]},
+  {code:"BUAN 4400",name:"Advanced Analytics & AI",pct:90,letter:"A",assignments:[
+    {n:"Python ML Lab 1",d:"Feb 5",s:"88/100"},{n:"Regression Analysis Project",d:"Feb 19",s:"90/100"},
+    {n:"Classification Models Lab",d:"Mar 12",s:"89/100"},{n:"Midterm Exam",d:"Apr 2",s:"91/100"},
+    {n:"Neural Network Project",d:"Apr 24",s:"90/100"},{n:"Model Deployment Lab",d:"May 5",s:"88/100"},
+    {n:"Final Exam",d:"May 14",s:"92/100",final:true}]},
+];
+
+const gl=document.getElementById('grades-list');
+currentCourses.forEach((c,i)=>{
+  const div=document.createElement('div');
+  div.className='course-card';
+  const ahtml=c.assignments.map(a=>`<div class="asgn-row ${a.final?'final-row':''}">
+    <div class="asgn-left">${a.final?'<i class="ti ti-certificate" style="font-size:13px;color:#a32d2d"></i>':''}<span class="asgn-nm">${a.n}</span><span class="asgn-dt">${a.d}</span></div>
+    <span class="asgn-sc">${a.s}</span></div>`).join('');
+  div.innerHTML=`<div class="c-header" onclick="tog(${i})">
+    <div class="c-left"><span class="c-code">${c.code}</span><span class="c-name">${c.name}</span></div>
+    <div class="c-right"><span class="c-pct">${c.pct}% · ${c.letter}</span><i class="ti ti-chevron-down chev" id="cv${i}"></i></div>
+  </div><div class="asgn-list" id="al${i}">${ahtml}</div>`;
+  gl.appendChild(div);
+});
+
+function tog(i){
+  const al=document.getElementById('al'+i);
+  const cv=document.getElementById('cv'+i);
+  const open=al.style.display==='block';
+  al.style.display=open?'none':'block';
+  cv.classList.toggle('open',!open);
+}
+
+const db=document.getElementById('dash-bars');
+currentCourses.forEach(c=>{
+  db.innerHTML+=`<div class="bar-row">
+    <div class="bar-meta"><span style="color:#666">${c.code}</span><span style="font-weight:500">${c.pct}%</span></div>
+    <div class="bar-track"><div class="bar-fill" style="width:${c.pct}%"></div></div>
+  </div>`;
+});
+
+const schedData=[
+  ["MIS 4500","Capstone: IS Strategy","Mon/Wed","2:00–3:15 PM","Melcher Hall 214","Dr. K. Patel"],
+  ["MIS 4510","Business Intelligence Systems","Tue/Thu","9:30–10:45 AM","Melcher Hall 110","Prof. R. Chen"],
+  ["COSC 4400","Cloud Infrastructure & DevOps","Mon/Wed","10:00–11:15 AM","SEC 310","Dr. A. Okonkwo"],
+  ["ACCT 4310","Accounting Information Systems","Tue/Thu","11:00 AM–12:15 PM","Melcher Hall 204","Prof. L. Martinez"],
+  ["MGMT 4400","Technology & Innovation Mgmt","Mon/Wed","3:30–4:45 PM","Melcher Hall 118","Dr. S. Williams"],
+  ["BUAN 4400","Advanced Analytics & AI","Tue/Thu","2:00–3:15 PM","SEC 215","Prof. J. Kim"],
+];
+const sb=document.getElementById('sched-body');
+schedData.forEach(([code,title,days,time,room,inst])=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${code}</td><td>${title}</td><td>${days}</td><td>${time}</td><td>${room}</td><td>${inst}</td>`;
+  sb.appendChild(tr);
+});
+</script>
+</body>
+</html>
