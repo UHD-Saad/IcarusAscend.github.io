@@ -297,6 +297,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="page" id="pg-deferred">
           <div class="section-hd">Deferred Exams</div>
           <div class="section-sub">Spring 2026 · Deferred assessments on file for Fardeen Saad</div>
+          <div style="display:flex;align-items:center;gap:12px;background:#eaf3de;border:1px solid #c0dd97;border-radius:10px;padding:14px 18px;margin-bottom:1rem">
+            <i class="ti ti-circle-check" style="font-size:28px;color:#3B6D11;flex-shrink:0"></i>
+            <div>
+              <div style="font-size:14px;font-weight:600;color:#3B6D11">All graduation requirements met</div>
+              <div style="font-size:12px;color:#4a7a1e;margin-top:2px">All deferred assessments have been completed and graded. Fardeen Saad is cleared for December 2026 graduation.</div>
+            </div>
+          </div>
           <div id="deferred-list"></div>
         </div>
 
@@ -533,7 +540,8 @@ currentCourses.forEach(c=>{
 });
 
 const deferredItems=[
-  {code:"ENGL 4320",name:"Advanced Composition & Rhetoric",type:"Essay",grade:"B+",score:null,date:"Jun 30, 2026"},
+  {code:"ENGL 4350",name:"Senior Capstone Writing Portfolio",type:"Essay 2",grade:"A+",score:null,date:"Jul 17, 2026"},
+  {code:"ENGL 4320",name:"Advanced Composition & Rhetoric",type:"Essay 1",grade:"B+",score:null,date:"Jun 30, 2026"},
   {code:"MIS 4530",name:"Information Systems Security Mgmt",type:"Exam 5",grade:null,score:"88%",date:"May 22, 2026"},
   {code:"BUAN 4410",name:"Applied Machine Learning",type:"Exam 4",grade:null,score:"96%",date:"May 16, 2026"},
   {code:"MGMT 4450",name:"Corporate Strategy & Innovation",type:"Exam 3",grade:null,score:"100%",date:"May 11, 2026"},
