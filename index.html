@@ -304,7 +304,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
               <div style="font-size:12px;color:#4a7a1e;margin-top:2px">All deferred assessments have been completed and graded. Fardeen Saad is cleared for December 2026 graduation.</div>
             </div>
           </div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+            <button onclick="nav('fulfillment', document.querySelector('[onclick*=fulfillment]'))" style="display:flex;align-items:center;gap:8px;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer"><i class="ti ti-file-certificate"></i> View Fulfillment Letter</button>
+          </div>
           <div id="deferred-list"></div>
+        </div>
+
+        <!-- FULFILLMENT LETTER -->
+        <div class="page" id="pg-fulfillment">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem">
+            <button onclick="nav('deferred', document.querySelector('[onclick*=deferred]'))" style="display:flex;align-items:center;gap:6px;background:none;border:1px solid #ddd;border-radius:8px;padding:8px 14px;font-size:13px;color:#555;cursor:pointer"><i class="ti ti-arrow-left"></i> Back to Deferred Exams</button>
+            <div>
+              <div class="section-hd" style="margin-bottom:0">Graduation Fulfillment Letter</div>
+              <div style="font-size:13px;color:#666">Issued July 27, 2026 · Dean Gregory B. Dudley</div>
+            </div>
+          </div>
+          <div class="card" style="padding:2rem;max-width:800px;margin:0 auto">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:48px;height:48px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0">UH</div>
+                <div>
+                  <div style="font-size:15px;font-weight:700;color:var(--red)">UNIVERSITY OF HOUSTON</div>
+                  <div style="font-size:11px;color:#888;letter-spacing:0.5px">UNIVERSITY OF HOUSTON DIGITAL GATEWAY</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;opacity:0.15">
+                <div style="width:20px;height:20px;background:#888;border-radius:2px"></div>
+                <div style="width:20px;height:20px;background:#888;border-radius:2px"></div>
+                <div style="width:20px;height:20px;background:#888;border-radius:2px"></div>
+                <div style="width:20px;height:20px;background:#888;border-radius:2px"></div>
+              </div>
+            </div>
+            <div style="font-size:32px;font-weight:300;color:#1a1a1a;margin-bottom:8px">Graduation Fulfillment</div>
+            <div style="font-size:14px;color:var(--red);margin-bottom:1.5rem;font-weight:500">July 27, 2026</div>
+            <hr style="border:none;border-top:1px solid #e5e5e5;margin-bottom:1.5rem">
+            <div style="font-size:14px;color:#1a1a1a;margin-bottom:1.25rem">Fardeen Saad,</div>
+            <div style="font-size:14px;color:#333;line-height:1.8;margin-bottom:1.25rem">This letter confirms that the student has successfully completed all previously deferred examinations and has satisfied all outstanding academic and program requirements necessary for graduation. Based on the successful completion of these requirements, the student is now academically eligible for reapplication and is considered to be in good standing with respect to graduation eligibility. Barring any unforeseen administrative matters, the student's expected graduation term is Winter 2026.</div>
+            <div style="font-size:14px;color:#333;line-height:1.8;margin-bottom:2.5rem">This letter is issued under the authority of the sender and is certified as true, accurate, and authentic. It is intended to serve as an official document that may be presented to employers, educational institutions, school administrators, faculty, and staff as valid verification of the information it contains. The sender affirms that the contents of this letter are accurate to the best of their knowledge and that it should be recognized and given full consideration by all relevant parties within their respective policies and procedures.</div>
+            <hr style="border:none;border-top:1px solid #e5e5e5;margin-bottom:1.5rem">
+            <div style="font-family:'Brush Script MT',cursive;font-size:28px;color:#1a1a1a;margin-bottom:8px">Gregory Dudley</div>
+            <div style="font-size:13px;color:#1a1a1a;font-weight:500">Dean Gregory B. Dudley</div>
+            <div style="font-size:13px;color:#666">1 Main St, Houston, TX 77002</div>
+          </div>
         </div>
 
         <!-- FINANCIAL AID -->
@@ -394,7 +435,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
-const pageNames={dashboard:"Dashboard",finaid:"Financial Aid",deferred:"Deferred Exams",profile:"My profile",grades:"Grades",transcript:"Transcript",schedule:"Schedule",resources:"Resources",help:"Help & contact"};
+const pageNames={dashboard:"Dashboard",finaid:"Financial Aid",deferred:"Deferred Exams",fulfillment:"Fulfillment Letter",profile:"My profile",grades:"Grades",transcript:"Transcript",schedule:"Schedule",resources:"Resources",help:"Help & contact"};
 
 function doLogin(){
   const uid=document.getElementById('uid').value.trim();
